@@ -15,104 +15,74 @@ body {
 }
 
 
-/* =========================
-   BARRA SUPERIOR
-========================= */
+/* Barra */
 
 .navbar {
     height: 90px;
     width: 100%;
-
     display: flex;
     align-items: center;
-
     padding: 0 6%;
-
     background: #111216;
-
     position: fixed;
     top: 0;
-
     z-index: 100;
 }
-
 
 .logo {
     font-size: 30px;
     font-weight: 900;
-
     letter-spacing: 4px;
-
     color: #ff3131;
-
     margin-right: 70px;
 }
-
 
 .menu {
     display: flex;
     gap: 40px;
-
     flex: 1;
 }
-
 
 .menu a {
     color: white;
     text-decoration: none;
-
     font-size: 14px;
     font-weight: bold;
-
     transition: 0.2s;
 }
-
 
 .menu a:hover {
     color: #ff3b3b;
 }
 
-
 #btnNavbar {
     background: #ff3030;
-
     border: none;
-
     color: white;
-
     padding: 14px 28px;
-
     font-size: 14px;
     font-weight: bold;
-
     cursor: pointer;
 }
-
 
 #btnNavbar:hover {
     background: #d91f1f;
 }
 
 
-/* =========================
-   PORTADA
-========================= */
+/* Portada */
 
 .hero {
     height: 100vh;
     min-height: 650px;
-
     position: relative;
-
     overflow: hidden;
-
     background:
         radial-gradient(
             circle at 50% 45%,
             rgba(180, 20, 20, 0.35),
             transparent 35%
         ),
-
         linear-gradient(
             135deg,
             #15181d,
@@ -121,13 +91,10 @@ body {
         );
 }
 
-
 .fondo {
     position: absolute;
-
     width: 100%;
     height: 100%;
-
     background:
         linear-gradient(
             90deg,
@@ -135,291 +102,194 @@ body {
             transparent,
             rgba(0,0,0,0.7)
         );
-
     opacity: 0.8;
 }
 
-
 .hero::before {
     content: "";
-
     position: absolute;
-
     width: 600px;
     height: 600px;
-
     border: 80px solid rgba(255, 40, 40, 0.04);
-
     transform: rotate(45deg);
-
     top: 100px;
     left: -250px;
 }
 
-
 .hero::after {
     content: "";
-
     position: absolute;
-
     width: 500px;
     height: 500px;
-
     border: 60px solid rgba(255, 255, 255, 0.025);
-
     transform: rotate(25deg);
-
     right: -200px;
     bottom: -200px;
 }
 
 
-/* =========================
-   CONTENIDO CENTRAL
-========================= */
+/* Contenido */
 
 .contenido {
     position: absolute;
-
     z-index: 10;
-
     width: 100%;
-
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
-
     text-align: center;
 }
 
-
 .subtitulo {
     color: #ff4a4a;
-
     font-size: 14px;
-
     font-weight: bold;
-
     letter-spacing: 6px;
-
     margin-bottom: 20px;
 }
 
-
 .contenido h1 {
     font-size: clamp(70px, 12vw, 150px);
-
     font-weight: 900;
-
     letter-spacing: 12px;
-
     line-height: 1;
-
     text-shadow:
         0 5px 0 #250000,
         0 0 40px rgba(255, 30, 30, 0.5);
 }
 
-
 .descripcion {
     max-width: 600px;
-
     margin: 30px auto;
-
     color: #d5d5d5;
-
     font-size: 18px;
-
     line-height: 1.6;
 }
 
 
-/* =========================
-   BOTÓN JUGAR
-========================= */
+/* Botón jugar */
 
 #btnJugar {
     margin-top: 20px;
-
     padding: 18px 45px;
-
     background: #ff3030;
-
     color: white;
-
     border: none;
-
     font-size: 18px;
-
     font-weight: 900;
-
     cursor: pointer;
-
     transition: 0.2s;
 }
 
-
 #btnJugar:hover {
     transform: scale(1.06);
-
     background: #e51f1f;
-
-    box-shadow:
-        0 0 25px rgba(255, 40, 40, 0.4);
+    box-shadow: 0 0 25px rgba(255, 40, 40, 0.4);
 }
 
 
-/* =========================
-   SECCIONES
-========================= */
+/* Secciones */
 
 .seccion {
     min-height: 500px;
-
     padding: 110px 12%;
-
     text-align: center;
-
     background: #eeeeef;
-
     color: #111;
 }
 
-
 .seccion h2 {
     font-size: 45px;
-
     margin-bottom: 25px;
 }
 
-
 .seccion > p {
     max-width: 750px;
-
     margin: auto;
-
     line-height: 1.7;
 }
 
-
 .miniTitulo {
     color: #e52a2a;
-
     font-size: 13px;
-
     font-weight: bold;
-
     letter-spacing: 4px;
-
     margin-bottom: 15px;
 }
 
 
-/* =========================
-   JEFES
-========================= */
+/* Jefes */
 
 .oscura {
     background: #101216;
-
     color: white;
 }
 
-
 .jefes {
     display: flex;
-
     justify-content: center;
-
     gap: 25px;
-
     margin-top: 55px;
 }
 
-
 .jefe {
     width: 260px;
-
     padding: 35px 25px;
-
     background: #191c22;
-
     border: 1px solid #292d35;
-
     transition: 0.2s;
 }
 
-
 .jefe:hover {
     transform: translateY(-8px);
-
     border-color: #ff3030;
 }
 
-
 .icono {
     font-size: 55px;
-
     margin-bottom: 20px;
 }
-
 
 .jefe h3 {
     margin-bottom: 12px;
 }
 
-
 .jefe p {
     color: #aeb1b8;
-
     line-height: 1.5;
 }
 
 
-/* =========================
-   TUTORIAL
-========================= */
+/* Tutorial */
 
 .tutorial {
     display: flex;
-
     justify-content: center;
-
     gap: 80px;
-
     margin-top: 60px;
 }
-
 
 .tutorial div {
     max-width: 220px;
 }
 
-
 .tutorial span {
     font-size: 45px;
 }
-
 
 .tutorial h3 {
     margin: 18px 0 10px;
 }
 
-
 .tutorial p {
     color: #555;
-
     line-height: 1.5;
 }
 
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* Responsive */
 
 @media (max-width: 800px) {
-
     .menu {
         display: none;
     }
@@ -431,17 +301,17 @@ body {
     .jefes,
     .tutorial {
         flex-direction: column;
-
         align-items: center;
-
         gap: 25px;
     }
 
     .contenido h1 {
         letter-spacing: 5px;
     }
-
 }
+
+
+/* Pantalla del juego */
 
 #pantallaJuego {
     display: none;
@@ -461,17 +331,443 @@ body {
     padding: 25px;
 }
 
-#zonaJuego {
+
+/* Portada del juego */
+
+#portadaJuego {
     width: 650px;
     height: 400px;
+    max-width: 100%;
     margin: 20px auto;
     background: #08090c;
     border: 2px solid #292d35;
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
+
+#portadaJuego h3 {
+    font-size: 55px;
+    letter-spacing: 8px;
+    color: #ff3030;
+    text-shadow: 0 0 25px rgba(255, 30, 30, 0.5);
+}
+
+#portadaJuego p {
+    color: #aaa;
+    font-size: 16px;
+    letter-spacing: 4px;
+}
+
+#portadaJuego .controles {
+    color: #777;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+#btnComenzar {
+    margin-top: 20px;
+    padding: 15px 35px;
+    background: #ff3030;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnComenzar:hover {
+    background: #d91f1f;
+    transform: scale(1.05);
+}
+
+
+/* Zona del juego */
+
+#zonaJuego {
+    width: 650px;
+    height: 400px;
+    max-width: 100%;
+    margin: 20px auto;
+    background: linear-gradient(#151a24, #090b10);
+    border: 2px solid #292d35;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+
+/* HUD */
+
+#hud {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-size: 14px;
+    z-index: 50;
+}
+
+
+/* Mapa */
+
+#mapa {
+    position: absolute;
+    width: 1800px;
+    height: 400px;
+    left: 0;
+    top: 0;
+}
+
+
+/* Suelo */
+
+#suelo {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1800px;
+    height: 45px;
+    background: #292d35;
+    border-top: 4px solid #ff3030;
+    z-index: 4;
+}
+
+
+/* Personaje */
+
+#jugador {
+    position: absolute;
+    width: 45px;
+    height: 75px;
+    left: 70px;
+    bottom: 45px;
+    z-index: 30;
+}
+
+.cabeza {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 7px;
+    top: 0;
+    background: #f0c29b;
+    border-radius: 50%;
+    border: 2px solid #b87955;
+    z-index: 5;
+}
+
+.pelo {
+    position: absolute;
+    width: 32px;
+    height: 14px;
+    left: -3px;
+    top: -3px;
+    background: #17191f;
+    border-radius: 15px 15px 5px 5px;
+}
+
+.ojo {
+    position: absolute;
+    width: 4px;
+    height: 5px;
+    background: #111;
+    border-radius: 50%;
+    top: 14px;
+}
+
+.ojo1 {
+    left: 8px;
+}
+
+.ojo2 {
+    right: 8px;
+}
+
+.boca {
+    position: absolute;
+    width: 9px;
+    height: 4px;
+    left: 9px;
+    bottom: 5px;
+    border-bottom: 2px solid #9b4c4c;
+    border-radius: 50%;
+}
+
+.cuerpo {
+    position: absolute;
+    width: 34px;
+    height: 31px;
+    left: 5px;
+    top: 27px;
+    background: #303640;
+    border-radius: 7px 7px 4px 4px;
+    border: 2px solid #1b1e24;
+    z-index: 3;
+}
+
+.campera {
+    position: absolute;
+    width: 20px;
+    height: 27px;
+    left: 5px;
+    top: 0;
+    background: #ff3030;
+    border-radius: 4px;
+}
+
+.cinturon {
+    position: absolute;
+    width: 30px;
+    height: 5px;
+    left: 0;
+    bottom: 4px;
+    background: #17191f;
+}
+
+.brazo {
+    position: absolute;
+    width: 9px;
+    height: 28px;
+    background: #303640;
+    border-radius: 5px;
+    top: 30px;
+    z-index: 2;
+}
+
+.brazoIzquierdo {
+    left: -3px;
+    transform: rotate(15deg);
+}
+
+.brazoDerecho {
+    right: -3px;
+    transform: rotate(-20deg);
+}
+
+.arma {
+    position: absolute;
+    width: 20px;
+    height: 7px;
+    right: -15px;
+    top: 15px;
+    background: #111;
+    border-radius: 2px;
+    transform: rotate(-10deg);
+}
+
+.arma::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 4px;
+    right: -5px;
+    top: 1px;
+    background: #555;
+}
+
+.pierna {
+    position: absolute;
+    width: 11px;
+    height: 20px;
+    background: #20242b;
+    top: 55px;
+    border-radius: 3px;
+}
+
+.pierna.izquierda {
+    left: 8px;
+}
+
+.pierna.derecha {
+    right: 8px;
+}
+
+.pierna::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 7px;
+    bottom: -4px;
+    background: #111;
+    border-radius: 3px;
+}
+
+.pierna.izquierda::after {
+    left: -2px;
+}
+
+.pierna.derecha::after {
+    right: -2px;
+}
+
+
+/* Balas */
+
+.bala-recolectable {
+    position: absolute;
+    font-size: 24px;
+    z-index: 20;
+    animation: flotar 1s infinite alternate;
+}
+
+@keyframes flotar {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-7px);
+    }
+}
+
+.bala1 {
+    left: 300px;
+    bottom: 120px;
+}
+
+.bala2 {
+    left: 550px;
+    bottom: 170px;
+}
+
+.bala3 {
+    left: 800px;
+    bottom: 120px;
+}
+
+.bala4 {
+    left: 1080px;
+    bottom: 140px;
+}
+
+.bala5 {
+    left: 1210px;
+    bottom: 215px;
+}
+
+.bala6 {
+    left: 1370px;
+    bottom: 160px;
+}
+
+.bala7 {
+    left: 1480px;
+    bottom: 235px;
+}
+
+
+/* Obstáculos */
+
+.obstaculo {
+    position: absolute;
+    background: #555b66;
+    border: 2px solid #737985;
+    z-index: 15;
+    box-shadow: 0 5px 0 #252830;
+}
+
+
+/* Bloques */
+
+.obstaculo1 {
+    left: 200px;
+    bottom: 45px;
+    width: 80px;
+    height: 60px;
+}
+
+.obstaculo2 {
+    left: 430px;
+    bottom: 45px;
+    width: 100px;
+    height: 100px;
+}
+
+.obstaculo3 {
+    left: 700px;
+    bottom: 45px;
+    width: 100px;
+    height: 70px;
+}
+
+
+/* Plataformas */
+
+.obstaculo4 {
+    left: 900px;
+    bottom: 150px;
+    width: 140px;
+    height: 25px;
+}
+
+.obstaculo5 {
+    left: 1080px;
+    bottom: 100px;
+    width: 120px;
+    height: 25px;
+}
+
+.obstaculo6 {
+    left: 1230px;
+    bottom: 180px;
+    width: 120px;
+    height: 25px;
+}
+
+.obstaculo7 {
+    left: 1380px;
+    bottom: 120px;
+    width: 130px;
+    height: 25px;
+}
+
+.obstaculo8 {
+    left: 1510px;
+    bottom: 200px;
+    width: 120px;
+    height: 25px;
+}
+
+
+/* Jefe */
+
+#jefeFinal {
+    position: absolute;
+    left: 1650px;
+    bottom: 45px;
+    width: 120px;
+    height: 170px;
+    background: #251016;
+    border: 3px solid #ff3030;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    z-index: 10;
+}
+
+.jefeCabeza {
+    font-size: 60px;
+}
+
+#jefeFinal p {
+    color: #ff3030;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+
+/* Volver */
 
 #btnVolver {
     position: absolute;
@@ -489,31 +785,22 @@ body {
     background: #d91f1f;
 }
 
+
+/* Game Over */
+
 #pantallaGameOver {
     display: none;
-
     position: absolute;
-
     top: 0;
     left: 0;
-
     width: 100%;
     height: 100%;
-
     background: #111216;
-
     border-radius: 15px;
-
-    z-index: 10;
-
-    display: none;
-
+    z-index: 100;
     flex-direction: column;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 20px;
 }
 
@@ -524,13 +811,9 @@ body {
 
 #pantallaGameOver button {
     padding: 12px 25px;
-
     background: #ff3030;
     color: white;
-
     border: none;
-
     cursor: pointer;
-
     font-weight: bold;
 }
