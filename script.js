@@ -26,7 +26,7 @@ const BUFFER = 6;          // frames que se "recuerda" un salto apretado un poco
 // enemigos: [xMin, xMax] recorrido de cada patrullero
 const NIVELES = [
     {
-        nombre: "Ciudad abandonada", clase: "zona1", ancho: 1800,
+        nombre: "Abandoned City", clase: "zona1", ancho: 1800,
         bloques: [[200, 0, 80, 60], [430, 0, 100, 100], [700, 0, 100, 70],
             [900, 105, 140, 25, "p"], [1080, 55, 120, 25, "p"], [1230, 135, 120, 25, "p"], [1380, 75, 130, 25, "p"], [1510, 155, 120, 25, "p"]],
         items: [["b", 300, 75], ["b", 550, 125], ["b", 800, 75], ["b", 1080, 95], ["b", 1210, 170], ["b", 1370, 115], ["b", 1480, 190],
@@ -35,7 +35,7 @@ const NIVELES = [
         jefe: { e: "👹", x: 1650, w: 110, h: 130, vida: 10, min: 1600, max: 1690, vel: 1, cad: 130 }
     },
     {
-        nombre: "Fábrica de energía", clase: "zona2", ancho: 2300,
+        nombre: "Energy Factory", clase: "zona2", ancho: 2300,
         bloques: [[260, 0, 70, 50], [430, 0, 80, 90], [1160, 0, 90, 80], [1880, 0, 100, 60],
             [610, 50, 110, 25, "p"], [780, 100, 110, 25, "p"], [960, 60, 110, 25, "p"], [1330, 50, 120, 25, "p"], [1500, 105, 120, 25, "p"], [1680, 60, 120, 25, "p"]],
         items: [["b", 290, 55], ["b", 460, 95], ["b", 650, 80], ["b", 820, 130], ["b", 1000, 90], ["b", 1200, 85], ["b", 1360, 80], ["b", 1540, 135], ["b", 1720, 90],
@@ -44,7 +44,7 @@ const NIVELES = [
         jefe: { e: "👾", x: 2100, w: 110, h: 130, vida: 14, min: 2000, max: 2190, vel: 1.5, cad: 100 }
     },
     {
-        nombre: "Núcleo de Nexoria", clase: "zona3", ancho: 2600,
+        nombre: "Nexoria's Core", clase: "zona3", ancho: 2600,
         bloques: [[280, 0, 80, 60], [520, 0, 90, 100], [1020, 0, 90, 90], [1560, 0, 90, 70], [2140, 0, 80, 70],
             [700, 55, 110, 25, "p"], [860, 105, 110, 25, "p"], [1180, 55, 110, 25, "p"], [1330, 105, 110, 25, "p"], [1700, 55, 110, 25, "p"], [1850, 105, 110, 25, "p"], [2000, 55, 100, 25, "p"]],
         items: [["b", 310, 65], ["b", 550, 105], ["b", 730, 80], ["b", 890, 130], ["b", 1050, 95], ["b", 1210, 80], ["b", 1360, 130], ["b", 1590, 75], ["b", 1730, 80], ["b", 1880, 130],
@@ -59,6 +59,116 @@ let p, nivel, nivelActual, bloques, items, enemigos, disparos, camX, vistaAncho;
 let vida, balas, puntos;
 let teclas = {}, juegoActivo = false, enTransicion = false;
 let raf, ultimoTiempo, tTransicion, tAviso;
+
+// ================= DIÁLOGOS DE COCARDO (nubecitas de diálogo) =================
+const NOMBRE_HEROE = "Cocardo";
+const dialogo = $("dialogo"), dialogoTexto = $("dialogoTexto");
+
+// Un jefe por zona: Guardian (0), Mutant (1) y el jefe final "??" (2)
+const DIALOGOS = {
+    inicio: [
+        "Nexoria is burning... and nobody else is left to stand up. Then it's up to me.",
+        "Whatever hit this planet, I'm going to find it. And I'm going to end it.",
+        "Alright. Weapon ready. Let's take our world back."
+    ],
+    zonaEntrada: [
+        ["These streets used to be full of life. Now there's only silence... and claws.",
+         "The beasts took everything. I'm getting it all back."],
+        ["The factory that powered all of Nexoria... Without it, the whole planet goes dark.",
+         "Something has been changing these creatures. They're stronger than before."],
+        ["The Core... the heart of Nexoria. Everything ends here, one way or another.",
+         "Nobody has ever seen what waits inside. Time to change that."]
+    ],
+    jefeAparece: [
+        ["So you're the Guardian. The invaders' chief sent you to stop heroes like me.",
+         "Many tried before me. I'm not planning to be the last one standing in front of you... I'm planning to be the first one past you."],
+        ["Genetically modified to be stronger... They made you into a weapon.",
+         "They say no one has ever beaten you. Good. I like a challenge."],
+        ["So you're the one behind the invasion. The one they call invincible.",
+         "Nobody is invincible. Everything falls... you just haven't met me yet."]
+    ],
+    jefeFuria: [
+        ["He's getting angry! Stay sharp, every bullet counts!", "Come on, show me what else you've got!"],
+        ["He's getting angry! Stay sharp, every bullet counts!", "Come on, show me what else you've got!"],
+        ["You're angry? Good. That means I'm getting to you!", "I'm not backing down. Not now, not after everything I've been through!"]
+    ],
+    jefeDerrotado: [
+        ["One down. The first zone is free.", "If that was the guard dog, I can't wait to meet the owner."],
+        ["They said you were unbeatable. They were wrong.", "The factory is ours again. One more zone to go."],
+        ["It's over... Nexoria is safe.",
+         "I got the coins back. Every single one. Now my people can finally rebuild.",
+         "They said the final boss was invincible. Turns out that was only until a hero showed up."]
+    ],
+    zonaCompleta: [
+        "Zone cleared. Catch your breath... the fight isn't over.",
+        "I got stronger in there. Let's keep moving."
+    ],
+    balas: ["Ammo! Every bullet counts.", "Just what I needed."],
+    moneda: ["A Nexoria coin... one step closer to getting them all back.",
+             "This belongs to my people. I'll make sure it gets home."],
+    sinBalas: "I'm out of ammo! I need to find more.",
+    dano: ["Argh! That hurt...", "I've been through worse. Keep going!"],
+    pocaVida: "I can't take much more of this... Careful now.",
+    enemigoDerrotado: "One less beast in Nexoria.",
+    salto: "Here goes nothing!",
+    derrota: ["No... I can't fall here... Nexoria is counting on me...",
+              "I'll be back. And next time, I won't lose."]
+};
+
+let dialogoCola = [], dialogoPrio = 0, dialogoVisible = false, dialogoAncho = 0, dialogoAlto = 0;
+let tDialogo, dialogoPendiente = [];
+const ultimaVez = {};
+
+const elegir = lista => lista[Math.floor(Math.random() * lista.length)];
+const duracionLinea = texto => 1500 + texto.length * 45;     // ms que se queda cada nubecita en pantalla
+const citar = lineas => [].concat(lineas).map(l => `“${l}”`).join(" ") + ` — ${NOMBRE_HEROE}`;
+
+// Evita repetir la misma clase de frase muy seguido
+function listo(clave, ms) {
+    const ahora = performance.now();
+    if (ahora - (ultimaVez[clave] || -1e9) < ms) return false;
+    ultimaVez[clave] = ahora;
+    return true;
+}
+
+// Cocardo dice una frase (o varias en fila). Una frase de menor prioridad no pisa a una más importante.
+function decir(lineas, prio = 1, retraso = 0) {
+    if (prio < dialogoPrio) return;
+    clearTimeout(tDialogo);
+    dialogoPrio = prio;
+    dialogoCola = [].concat(lineas);
+    tDialogo = setTimeout(siguienteDialogo, retraso);
+}
+
+function siguienteDialogo() {
+    const texto = dialogoCola.shift();
+    if (!texto) return ocultarDialogo();
+    dialogoTexto.textContent = texto;
+    dialogo.classList.add("visible");
+    dialogoVisible = true;
+    dialogoAncho = dialogo.offsetWidth;
+    dialogoAlto = dialogo.offsetHeight;
+    tDialogo = setTimeout(siguienteDialogo, duracionLinea(texto));
+}
+
+function ocultarDialogo() {
+    clearTimeout(tDialogo);
+    dialogoCola = [];
+    dialogoPrio = 0;
+    dialogoVisible = false;
+    dialogo.classList.remove("visible");
+}
+
+// La nubecita sigue a Cocardo y se mantiene dentro de la pantalla
+function posicionarDialogo(cx) {
+    const mitad = dialogoAncho / 2;
+    const centro = p.x + p.w / 2 - cx;
+    const izq = Math.max(mitad + 6, Math.min(vistaAncho - mitad - 6, centro));
+    const alto = Math.min(SUELO + p.y + p.h + 14, zonaJuego.clientHeight - 40 - dialogoAlto);
+    dialogo.style.left = Math.round(izq) + "px";
+    dialogo.style.bottom = Math.round(alto) + "px";
+    dialogo.style.setProperty("--cola", Math.round(Math.max(16 - mitad, Math.min(mitad - 16, centro - izq))) + "px");
+}
 
 // ================= BOTONES =================
 $("btnJugar").addEventListener("click", iniciarJuego);
@@ -129,6 +239,8 @@ window.addEventListener("resize", () => { vistaAncho = zonaJuego.clientWidth || 
 function iniciarPartida() {
     detener();
     vida = 3; balas = 0; puntos = 0;
+    dialogoPendiente = [];
+    Object.keys(ultimaVez).forEach(k => delete ultimaVez[k]);
     p = { w: 28, h: 68, dir: 1, coyote: 0, buffer: 0, cd: 0, flash: 0 };
     cargarNivel(0);
     arrancar();
@@ -161,7 +273,11 @@ function cargarNivel(i) {
     camX = 0;
     enTransicion = false;
     actualizarHUD();
-    mostrarAviso(`ZONA ${i + 1} · ${nivel.nombre}`, 1800);
+    mostrarAviso(`ZONE ${i + 1} · ${nivel.nombre}`, 1800);
+    // Cocardo habla al empezar la partida y al entrar a cada zona
+    const intro = (i === 0 ? DIALOGOS.inicio : dialogoPendiente).concat(DIALOGOS.zonaEntrada[i]);
+    dialogoPendiente = [];
+    decir(intro, 2, 700);
     dibujar();
 }
 
@@ -217,16 +333,22 @@ function completarZona() {
     disparos.forEach(d => d.el.remove());
     disparos = [];
     temblor();
-    tTransicion = setTimeout(mostrarContinuar, 1200);   // deja ver cómo cae el jefe
+    // Cocardo comenta la victoria; el resto de sus frases sale en la pantalla de continuar y en la zona siguiente
+    const lineas = DIALOGOS.jefeDerrotado[nivelActual];
+    if (nivelActual < NIVELES.length - 1) dialogoPendiente = lineas.slice(1);
+    decir(lineas[0], 4);
+    tTransicion = setTimeout(mostrarContinuar, Math.max(1200, duracionLinea(lineas[0]) + 200));   // deja ver cómo cae el jefe
 }
 
 // Pausa el juego y muestra el botón para pasar a la siguiente zona
 function mostrarContinuar() {
     const esUltima = nivelActual === NIVELES.length - 1;
-    $("continuarTitulo").textContent = esUltima ? "¡NEXORIA ESTÁ A SALVO!" : `ZONA ${nivelActual + 1} COMPLETADA`;
-    $("continuarTexto").textContent = `Puntos: ${puntos} · Balas: ${balas}` +
-        (esUltima ? "" : ` · Próxima zona: ${NIVELES[nivelActual + 1].nombre}`);
-    $("btnContinuar").textContent = esUltima ? "VER RESULTADOS ▶" : "CONTINUAR ▶";
+    ocultarDialogo();
+    $("continuarTitulo").textContent = esUltima ? "NEXORIA IS SAFE!" : `ZONE ${nivelActual + 1} COMPLETE`;
+    $("continuarTexto").textContent = `Score: ${puntos} · Ammo: ${balas}` +
+        (esUltima ? "" : ` · Next zone: ${NIVELES[nivelActual + 1].nombre}`);
+    $("continuarDialogo").textContent = citar(esUltima ? DIALOGOS.jefeDerrotado[2][1] : elegir(DIALOGOS.zonaCompleta));
+    $("btnContinuar").textContent = esUltima ? "SEE RESULTS ▶" : "CONTINUE ▶";
     pantallaContinuar.style.display = "flex";
     $("btnContinuar").focus();
     juegoActivo = false;
@@ -241,9 +363,10 @@ function terminar(gano) {
         record = Math.max(puntos, Number(localStorage.getItem("nexoriaRecord")) || 0);
         localStorage.setItem("nexoriaRecord", record);
     } catch (err) { /* sin localStorage: se ignora */ }
-    $("gameOverTitulo").textContent = gano ? "¡VICTORIA!" : "GAME OVER";
-    $("gameOverTexto").textContent = (gano ? "¡Recuperaste las monedas de Nexoria!" : "Has sido derrotado.") +
-        ` Puntos: ${puntos} · Récord: ${record}`;
+    $("gameOverTitulo").textContent = gano ? "VICTORY!" : "GAME OVER";
+    $("gameOverTexto").textContent = (gano ? "You recovered Nexoria's coins!" : "You have been defeated.") +
+        ` Score: ${puntos} · Best: ${record}`;
+    $("gameOverDialogo").textContent = citar(gano ? DIALOGOS.jefeDerrotado[2][2] : DIALOGOS.derrota);
     pantallaGameOver.style.display = "flex";
 }
 
@@ -271,6 +394,8 @@ function detener() {
     clearTimeout(tTransicion);
     clearTimeout(tAviso);
     aviso.classList.remove("visible");
+    ocultarDialogo();
+    teclas = {};
     pantallaContinuar.style.display = "none";
 }
 
@@ -281,6 +406,13 @@ function actualizar(dt) {
     recogerItems();
     for (const e of enemigos) {
         if (solapa(p, e)) { danar(p.x + p.w / 2 < e.x + e.w / 2 ? -1 : 1); break; }
+    }
+    // Cocardo reacciona cuando se acerca a un jefe por primera vez
+    for (const e of enemigos) {
+        if (e.jefe && !e.visto && Math.abs(p.x - e.x) < 450) {
+            e.visto = true;
+            decir(DIALOGOS.jefeAparece[nivelActual], 3);
+        }
     }
     // Cámara suave, con un poco de adelanto hacia donde mirás
     const objetivo = p.x - vistaAncho * 0.4 + p.dir * 40;
@@ -308,6 +440,7 @@ function moverJugador(dt) {
     p.coyote = p.suelo ? COYOTE : p.coyote - dt;
     if (p.buffer > 0 && p.coyote > 0) {
         p.vy = SALTO; p.coyote = 0; p.buffer = 0; p.suelo = false;
+        if (Math.random() < 0.25 && listo("salto", 30000)) decir(DIALOGOS.salto, 1);
     }
 
     // Eje X: se mueve y se resuelve contra bloques sólidos
@@ -339,6 +472,8 @@ function moverJugador(dt) {
         balas--; p.cd = 14; p.flash = 6;
         lanzar(p.dir > 0 ? p.x + p.w : p.x - 16, p.y + 20, p.dir * 9, false);
         actualizarHUD();
+    } else if (teclas.disparar && balas <= 0 && !enTransicion && listo("sinBalas", 6000)) {
+        decir(DIALOGOS.sinBalas, 1);
     }
 }
 
@@ -347,7 +482,9 @@ function danar(lado) {
     vida--;
     p.invul = 90; p.golpe = 12; p.vx = lado * 7; p.vy = 6; p.suelo = false;
     actualizarHUD();
-    if (vida <= 0) terminar(false);
+    if (vida <= 0) return terminar(false);
+    if (vida === 1) decir(DIALOGOS.pocaVida, 2);
+    else if (listo("dano", 4000)) decir(elegir(DIALOGOS.dano), 1);
 }
 
 // ================= ENEMIGOS Y DISPAROS =================
@@ -436,7 +573,8 @@ function golpear(e) {
         if (!e.furia && e.vida > 0 && e.vida <= e.vidaMax / 2) {   // a mitad de vida se enfurece
             e.furia = true; e.vel *= 1.3; e.cad *= 0.7;
             e.el.classList.add("furia");
-            mostrarAviso("¡EL JEFE SE ENFURECE!", 1400);
+            mostrarAviso("THE BOSS IS ENRAGED!", 1400);
+            decir(elegir(DIALOGOS.jefeFuria[nivelActual]), 3);
         }
     }
     if (e.vida > 0) return;
@@ -451,6 +589,7 @@ function golpear(e) {
         completarZona();
     } else {
         e.el.remove();
+        if (listo("bestia", 9000)) decir(DIALOGOS.enemigoDerrotado, 1);
     }
 }
 
@@ -462,6 +601,7 @@ function recogerItems() {
         it.el.remove();
         items.splice(i, 1);
         actualizarHUD();
+        if (listo("item", 6000)) decir(elegir(it.t === "b" ? DIALOGOS.balas : DIALOGOS.moneda), 1);
     }
 }
 
@@ -499,225 +639,9 @@ function dibujar() {
 
     const cx = Math.round(camX);
     mapa.style.transform = `translate3d(${-cx}px, 0, 0)`;
+    if (dialogoVisible) posicionarDialogo(cx);
     // Parallax: cada capa se mueve a una fracción de la cámara y se repite en bucle
     capas.forEach(([el, factor, tile]) => {
         el.style.transform = `translate3d(${-((camX * factor) % tile)}px, 0, 0)`;
     });
-}
-
-// Teclado
-document.addEventListener("keydown", function(evento) {
-    const tecla = evento.key.toLowerCase();
-    teclas[tecla] = true;
-
-    if (juegoActivo && (tecla === "w" || tecla === "a" || tecla === "s" || tecla === "d")) {
-        evento.preventDefault();
-    }
-
-    if (tecla === "w" && enElSuelo && juegoActivo) {
-        velocidadY = 12;
-        enElSuelo = false;
-    }
-});
-
-document.addEventListener("keyup", function(evento) {
-    const tecla = evento.key.toLowerCase();
-    teclas[tecla] = false;
-});
-
-// Actualizar juego
-function actualizarJuego() {
-    if (!juegoActivo) {
-        return;
-    }
-
-    let movimientoX = 0;
-
-    if (teclas["d"]) {
-        movimientoX = 4;
-    }
-
-    if (teclas["a"]) {
-        movimientoX = -4;
-    }
-
-    moverHorizontal(movimientoX);
-
-    velocidadY -= 0.6;
-    jugadorY += velocidadY;
-
-    comprobarColisionVertical();
-
-    jugador.style.left = jugadorX + "px";
-    jugador.style.bottom = (45 + jugadorY) + "px";
-
-    recogerBalas();
-    moverCamara();
-    comprobarJefe();
-
-    requestAnimationFrame(actualizarJuego);
-}
-
-// Movimiento
-function moverHorizontal(movimientoX) {
-    if (movimientoX === 0) {
-        return;
-    }
-
-    let nuevaX = jugadorX + movimientoX;
-    const jugadorIzquierda = nuevaX;
-    const jugadorDerecha = nuevaX + jugador.offsetWidth;
-
-    for (let i = 0; i < obstaculos.length; i++) {
-        const obstaculo = obstaculos[i];
-
-        const obstaculoIzquierda = obstaculo.offsetLeft;
-        const obstaculoDerecha = obstaculo.offsetLeft + obstaculo.offsetWidth;
-
-        const bottom = parseInt(getComputedStyle(obstaculo).bottom);
-        const obstaculoAbajo = bottom;
-        const obstaculoArriba = bottom + obstaculo.offsetHeight;
-
-        const jugadorAbajo = 45 + jugadorY;
-        const jugadorArriba = jugadorAbajo + jugador.offsetHeight;
-
-        const colisionHorizontal =
-            jugadorDerecha > obstaculoIzquierda &&
-            jugadorIzquierda < obstaculoDerecha;
-
-        const colisionVertical =
-            jugadorArriba > obstaculoAbajo &&
-            jugadorAbajo < obstaculoArriba;
-
-        if (colisionHorizontal && colisionVertical) {
-            return;
-        }
-    }
-
-    jugadorX = nuevaX;
-
-    if (jugadorX < 20) {
-        jugadorX = 20;
-    }
-
-    if (jugadorX > 1710) {
-        jugadorX = 1710;
-    }
-}
-
-// Colisión vertical
-function comprobarColisionVertical() {
-    const jugadorIzquierda = jugadorX;
-    const jugadorDerecha = jugadorX + jugador.offsetWidth;
-    const jugadorAbajo = 45 + jugadorY;
-    const jugadorArriba = jugadorAbajo + jugador.offsetHeight;
-
-    let estaApoyado = false;
-
-    for (let i = 0; i < obstaculos.length; i++) {
-        const obstaculo = obstaculos[i];
-
-        const obstaculoIzquierda = obstaculo.offsetLeft;
-        const obstaculoDerecha = obstaculo.offsetLeft + obstaculo.offsetWidth;
-
-        const bottom = parseInt(getComputedStyle(obstaculo).bottom);
-        const obstaculoArriba = bottom + obstaculo.offsetHeight;
-
-        const colisionHorizontal =
-            jugadorDerecha > obstaculoIzquierda &&
-            jugadorIzquierda < obstaculoDerecha;
-
-        if (
-            colisionHorizontal &&
-            velocidadY <= 0 &&
-            jugadorAbajo <= obstaculoArriba &&
-            jugadorAbajo >= obstaculoArriba - 20
-        ) {
-            jugadorY = obstaculoArriba - 45;
-            velocidadY = 0;
-            enElSuelo = true;
-            estaApoyado = true;
-            break;
-        }
-    }
-
-    if (!estaApoyado && jugadorY <= 0) {
-        jugadorY = 0;
-        velocidadY = 0;
-        enElSuelo = true;
-    }
-
-    if (!estaApoyado && jugadorY > 0) {
-        enElSuelo = false;
-    }
-}
-
-// Recoger balas
-function recogerBalas() {
-    balasRecolectables.forEach(function(bala) {
-        if (bala.style.display === "none") {
-            return;
-        }
-
-        const balaX = bala.offsetLeft;
-        const balaY = bala.offsetTop;
-
-        const diferenciaX = Math.abs(jugadorX - balaX);
-        const posicionJugador = 400 - jugadorY;
-        const diferenciaY = Math.abs(posicionJugador - balaY);
-
-        if (diferenciaX < 45 && diferenciaY < 70) {
-            bala.style.display = "none";
-
-            balas += 5;
-            puntos += 10;
-
-            balasTexto.textContent = balas;
-            puntosTexto.textContent = puntos;
-        }
-    });
-}
-
-// Cámara
-function moverCamara() {
-    const posicionCamara = jugadorX - 200;
-
-    if (posicionCamara > 0) {
-        mapa.style.left = -posicionCamara + "px";
-    }
-}
-
-// Jefe
-function comprobarJefe() {
-    const distancia = Math.abs(jugadorX - 1650);
-
-    if (distancia < 100) {
-        jefeFinal.style.borderColor = "#ffffff";
-        jefeFinal.style.transform = "scale(1.05)";
-    } else {
-        jefeFinal.style.borderColor = "#ff3030";
-        jefeFinal.style.transform = "scale(1)";
-    }
-}
-
-// Reiniciar
-function reiniciarJuego() {
-    pantallaGameOver.style.display = "none";
-    portadaJuego.style.display = "none";
-    zonaJuego.style.display = "block";
-
-    reiniciarValores();
-
-    juegoActivo = true;
-    actualizarJuego();
-}
-
-// Volver al inicio
-function volverAlInicio() {
-    juegoActivo = false;
-
-    pantallaGameOver.style.display = "none";
-    zonaJuego.style.display = "none";
-    portadaJuego.style.display = "flex";
-    pantallaJuego.style.display = "none";
 }

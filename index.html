@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,13 +15,13 @@
     <div class="logo">NEXORIA</div>
 
     <nav class="menu">
-        <a href="#inicio">INICIO</a>
-        <a href="#historia">HISTORIA</a>
-        <a href="#jefes">JEFES</a>
+        <a href="#inicio">HOME</a>
+        <a href="#historia">STORY</a>
+        <a href="#jefes">BOSSES</a>
         <a href="#tutorial">TUTORIAL</a>
     </nav>
 
-    <button id="btnNavbar">JUGAR</button>
+    <button id="btnNavbar">PLAY</button>
 </header>
 
 
@@ -31,14 +31,14 @@
     <div class="fondo"></div>
 
     <div class="contenido">
-        <p class="subtitulo">PREPARATE PARA LA BATALLA</p>
+        <p class="subtitulo">GET READY FOR BATTLE</p>
         <h1>NEXORIA</h1>
 
         <p class="descripcion">
-           Salva la tierra de Nexoria de las fuerzas enemigas.
+           Save the land of Nexoria from the enemy forces.
         </p>
 
-        <button id="btnJugar">▶ JUGAR AHORA</button>
+        <button id="btnJugar">▶ PLAY NOW</button>
     </div>
 </main>
 
@@ -47,15 +47,15 @@
 
 <section id="pantallaJuego">
 
-    <button id="btnVolver">← VOLVER</button>
+    <button id="btnVolver">← BACK</button>
     <h2>NEXORIA</h2>
 
     <!-- Portada del juego -->
 
     <div id="portadaJuego">
         <h3>NEXORIA</h3>
-        <p>LA BATALLA COMIENZA</p>
-        <button id="btnComenzar">▶ COMENZAR</button>
+        <p>THE BATTLE BEGINS</p>
+        <button id="btnComenzar">▶ START</button>
     </div>
 
 
@@ -70,26 +70,30 @@
 
         <!-- HUD -->
         <div id="hud">
-            <span>🗺️ ZONA: <b id="zona">1</b></span>
-            <span>❤️ VIDA: <b id="vida">3</b></span>
-            <span>🔫 BALAS: <b id="balas">0</b></span>
-            <span>⭐ PUNTOS: <b id="puntos">0</b></span>
+            <span>🗺️ ZONE: <b id="zona">1</b></span>
+            <span>❤️ LIVES: <b id="vida">3</b></span>
+            <span>🔫 AMMO: <b id="balas">0</b></span>
+            <span>⭐ SCORE: <b id="puntos">0</b></span>
         </div>
 
         <div id="aviso"></div>
-        <div id="ayuda">A / D mover · W saltar · J o clic para disparar</div>
+
+        <!-- Nubecita de diálogo de Cocardo (la posiciona script.js sobre su cabeza) -->
+        <div id="dialogo"><b>Cocardo</b><span id="dialogoTexto"></span></div>
+        <div id="ayuda">A / D move · W jump · J or click to shoot</div>
 
         <!-- Aparece al derrotar al jefe -->
         <div id="pantallaContinuar">
-            <h2 id="continuarTitulo">ZONA COMPLETADA</h2>
+            <h2 id="continuarTitulo">ZONE COMPLETE</h2>
             <p id="continuarTexto"></p>
-            <button id="btnContinuar">CONTINUAR ▶</button>
+            <p id="continuarDialogo" class="dialogoFinal"></p>
+            <button id="btnContinuar">CONTINUE ▶</button>
         </div>
 
         <!-- Mapa: bloques, plataformas, items y enemigos los crea script.js según el nivel -->
         <div id="mapa">
 
-            <!-- Kai -->
+            <!-- Cocardo -->
             <div id="jugador">
                 <svg viewBox="0 0 44 68" xmlns="http://www.w3.org/2000/svg">
                     <g class="kBrazoT">
@@ -139,10 +143,11 @@
 
     <div id="pantallaGameOver">
         <h2 id="gameOverTitulo">GAME OVER</h2>
-        <p id="gameOverTexto">Has sido derrotado.</p>
+        <p id="gameOverTexto">You have been defeated.</p>
+        <p id="gameOverDialogo" class="dialogoFinal"></p>
 
-        <button id="btnReintentar">REINTENTAR</button>
-        <button id="btnInicio">VOLVER AL INICIO</button>
+        <button id="btnReintentar">TRY AGAIN</button>
+        <button id="btnInicio">BACK TO START</button>
     </div>
 
 </section>
@@ -152,15 +157,15 @@
 
 <section id="historia" class="seccion">
 
-    <p class="miniTitulo">LA HISTORIA</p>
+    <p class="miniTitulo">THE STORY</p>
 
-    <h2>La batalla por Nexoria</h2>
+    <h2>The Battle for Nexoria</h2>
 
     <p>
-        Nexoria cayó en el caos después de que una misteriosa
-        fuerza atacara el planeta. Ahora sus habitantes deben
-        recuperar las zonas que fueron tomadas por las bestias y enfrentarse a poderosos
-        enemigos.
+        Nexoria fell into chaos after a mysterious
+        force attacked the planet. Now its inhabitants must
+        retake the zones that were seized by the beasts and face powerful
+        enemies.
     </p>
 
 </section>
@@ -170,29 +175,29 @@
 
 <section id="jefes" class="seccion oscura">
 
-    <p class="miniTitulo">ENEMIGOS</p>
+    <p class="miniTitulo">ENEMIES</p>
 
-    <h2>MOUNSTROS</h2>
+    <h2>MONSTERS</h2>
 
     <div class="jefes">
 
         <div class="jefe">
             <div class="icono">👹</div>
 
-            <h3>GUARDIÁN</h3>
+            <h3>GUARDIAN</h3>
 
             <p>
-                Protege la primera zona de Nexoria. Fue mandado por el jefe de la tribu invasora para debilitar a los intentos de heroes
+                Protects the first zone of Nexoria. He was sent by the chief of the invading tribe to weaken the attempts of heroes.
             </p>
         </div>
 
         <div class="jefe">
             <div class="icono">👾</div>
 
-            <h3>MUTANTE</h3>
+            <h3>MUTANT</h3>
 
             <p>
-                Un enemigo que ha sido modificado genéticamente para ser más fuerte. Nunca han podido derrotarlo.
+                An enemy that has been genetically modified to be stronger. No one has ever been able to defeat him.
             </p>
         </div>
 
@@ -202,7 +207,7 @@
             <h3>??</h3>
 
             <p>
-                Un enemigo que nadie ha visto. Se dice que es el jefe final de la invasión y que es invencible.
+                An enemy no one has ever seen. They say he is the final boss of the invasion and that he is invincible.
             </p>
         </div>
 
@@ -215,51 +220,51 @@
 
 <section id="tutorial" class="seccion">
 
-    <p class="miniTitulo">APRENDÉ</p>
+    <p class="miniTitulo">LEARN</p>
 
-    <h2>¿Cómo jugar?</h2>
+    <h2>How to play?</h2>
 
     <div class="tutorial">
 
         <div>
             <span>⌨️</span>
 
-            <h3>MOVETE</h3>
+            <h3>MOVE</h3>
 
             <p>
-                Usá las teclas A y D para moverte por el mapa. 
-                A: para moverte a la izquierda
-                D: para moverte a la derecha.
+                Use the A and D keys to move across the map.
+                A: move left.
+                D: move right.
             </p>
         </div>
 
         <div>
             <span>⬆️</span>
 
-            <h3>SALTÁ</h3>
+            <h3>JUMP</h3>
 
             <p>
-                Usá la tecla W para saltar obstáculos y platarfomas
+                Use the W key to jump over obstacles and platforms.
             </p>
         </div>
 
         <div>
             <span>🔫</span>
 
-            <h3>RECOLECTÁ</h3>
+            <h3>COLLECT</h3>
 
             <p>
-                Encuentra la municion esparcida por el mapa para poder disparar a los enemigos. Cada bala es importante.
+                Find the ammo scattered around the map so you can shoot the enemies. Every bullet counts.
             </p>
         </div>
 
         <div>
             <span>💥</span>
 
-            <h3>DISPARÁ</h3>
+            <h3>SHOOT</h3>
 
             <p>
-                Apretá J (o K) para disparar. Derrotá al jefe de cada zona para pasar a la siguiente. También podés moverte con las flechas.
+                Press J (or K) to shoot. Defeat the boss of each zone to move on to the next one. You can also move with the arrow keys.
             </p>
         </div>
 

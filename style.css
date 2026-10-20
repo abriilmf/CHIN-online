@@ -708,7 +708,7 @@ body {
 }
 
 
-/* Kai (personaje) */
+/* Cocardo (personaje) */
 
 #jugador {
     position: absolute;
@@ -822,4 +822,69 @@ body {
     border: none;
     cursor: pointer;
     font-weight: bold;
+}
+
+
+/* Nubecita de diálogo de Cocardo */
+
+#dialogo {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 210px;
+    padding: 8px 12px 10px;
+    background: #fff;
+    color: #14161c;
+    border-radius: 16px;
+    font-size: 12px;
+    line-height: 1.35;
+    text-align: left;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 55;
+}
+
+#dialogo.visible {
+    opacity: 1;
+}
+
+#dialogo b {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c4271f;
+}
+
+/* colita de la nubecita (--cola la mueve cuando la burbuja se pega al borde) */
+#dialogo::after {
+    content: "";
+    position: absolute;
+    left: calc(50% + var(--cola, 0px));
+    bottom: -8px;
+    margin-left: -8px;
+    border: 8px solid transparent;
+    border-bottom: 0;
+    border-top-color: #fff;
+}
+
+/* Frase de Cocardo en las pantallas de continuar / victoria / derrota */
+#pantallaContinuar .dialogoFinal,
+#pantallaGameOver .dialogoFinal {
+    max-width: 440px;
+    margin: 0 20px;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.5;
+    text-align: center;
+    color: #ffd36b;
+}
+
+.dialogoFinal:empty {
+    display: none;
 }
